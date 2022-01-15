@@ -1,9 +1,28 @@
 import React from 'react'
 import {  Container, Form, FormControl, Nav, Navbar, NavDropdown } from "react-bootstrap"
-import { Link } from 'react-router-dom'
+import { useDispatch} from 'react-redux';
+import { Link, useHistory } from 'react-router-dom'
+import { logout } from '../../actions/userActions.js';
+
 import "./Header.css"
 
-function Header() {
+function Header()
+{
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  // const userLogin = useSelector(state => state.userLogin)
+
+  // const { userInfo } = userLogin;
+
+  const logoutHandler = () =>
+  {
+    dispatch(logout());
+    history.push("/");
+  }
+
+
     return (
        <Navbar bg="secondary" expand="lg" variant="dark">
   <Container>
@@ -29,7 +48,7 @@ function Header() {
         <NavDropdown title="Gaamy" id="navbarScrollingDropdown">
           <NavDropdown.Item href="#action3">My profile</NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item href="#action5">
+          <NavDropdown.Item  onClick={logoutHandler}>
             logout
           </NavDropdown.Item>
         </NavDropdown>
