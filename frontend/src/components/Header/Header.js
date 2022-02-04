@@ -1,20 +1,20 @@
 import React from 'react'
 import {  Container, Form, FormControl, Nav, Navbar, NavDropdown } from "react-bootstrap"
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { Link, useHistory } from 'react-router-dom'
 import { logout } from '../../actions/userActions.js';
 
 import "./Header.css"
 
-function Header()
+function Header({setSearch})
 {
   const history = useHistory();
 
   const dispatch = useDispatch();
 
-  // const userLogin = useSelector(state => state.userLogin)
+  const userLogin = useSelector(state => state.userLogin)
 
-  // const { userInfo } = userLogin;
+  const { userInfo } = userLogin;
 
   const logoutHandler = () =>
   {
@@ -36,23 +36,24 @@ function Header()
           placeholder="Search"
           className="me-2"
           aria-label="Search"
+          onChange={(e)=> setSearch(e.target.value)}
         />
       </Form>
         </nav>
-      <Nav
+      {userInfo && <Nav
         className="my-2 my-lg-0"
         style={{ maxHeight: '100px' }}
         navbarScroll
       >
         <Nav.Link> <Link className='repairLink' to="/mynotes">My Notes</Link></Nav.Link>
-        <NavDropdown title="Gaamy" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">My profile</NavDropdown.Item>
+        <NavDropdown title={userInfo?.name} id="navbarScrollingDropdown">
+          <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item  onClick={logoutHandler}>
             logout
           </NavDropdown.Item>
         </NavDropdown>
-      </Nav>
+      </Nav>}
      
     </Navbar.Collapse>
   </Container>
